@@ -22,7 +22,10 @@ Vagrant.configure("2") do |config|
       sudo mkdir -p -m 755 /etc/apt/keyrings
       curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.30/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
       echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.30/deb/ /' | sudo tee /etc/apt/sources.list.d/kubernetes.list
-      
+      cat <<EOF | sudo tee /etc/sysctl.d/k8s.conf
+      net.ipv4.ip_forward = 1
+      EOF
+
       # Update the apt package index, install kubelet, kubeadm and kubectl, and pin their version:
       sudo apt-get update
       sudo apt-get install -y kubelet kubeadm kubectl
