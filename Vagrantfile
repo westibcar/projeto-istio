@@ -23,23 +23,23 @@ Vagrant.configure("2") do |config|
       curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.30/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
       echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.30/deb/ /' | sudo tee /etc/apt/sources.list.d/kubernetes.list
       cat <<EOF | sudo tee /etc/sysctl.d/k8s.conf
-      net.ipv4.ip_forward = 1
-      EOF
+net.ipv4.ip_forward = 1
+EOF
 
-      # Update the apt package index, install kubelet, kubeadm and kubectl, and pin their version:
+      # Atualiza o índice do apt, instala kubelet, kubeadm e kubectl, e fixa a versão:
       sudo apt-get update
       sudo apt-get install -y kubelet kubeadm kubectl
       sudo apt-mark hold kubelet kubeadm kubectl
       sudo systemctl enable --now kubelet
       sudo kubeadm init --pod-network-cidr=10.244.0.0/16 
-  
+    
       # Configuração do kubectl para o usuário vagrant
       mkdir -p /home/vagrant/.kube
       sudo cp -i /etc/kubernetes/admin.conf /home/vagrant/.kube/config
       sudo chown vagrant:vagrant /home/vagrant/.kube/config
       
       # Aplicação da rede Flannel
-      kubectl apply -f kubectl apply -f https://github.com/flannel-io/flannel/releases/latest/download/kube-flannel.yml
+      kubectl apply -f https://github.com/flannel-io/flannel/releases/latest/download/kube-flannel.yml
     SHELL
   end
 
@@ -60,8 +60,11 @@ Vagrant.configure("2") do |config|
       sudo mkdir -p -m 755 /etc/apt/keyrings
       curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.30/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
       echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.30/deb/ /' | sudo tee /etc/apt/sources.list.d/kubernetes.list
-      
-      # Update the apt package index, install kubelet, kubeadm and kubectl, and pin their version:
+      cat <<EOF | sudo tee /etc/sysctl.d/k8s.conf
+net.ipv4.ip_forward = 1
+EOF
+
+      # Atualiza o índice do apt, instala kubelet, kubeadm e kubectl, e fixa a versão:
       sudo apt-get update
       sudo apt-get install -y kubelet kubeadm kubectl
       sudo apt-mark hold kubelet kubeadm kubectl
@@ -86,8 +89,11 @@ Vagrant.configure("2") do |config|
       sudo mkdir -p -m 755 /etc/apt/keyrings
       curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.30/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
       echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.30/deb/ /' | sudo tee /etc/apt/sources.list.d/kubernetes.list
-      
-      # Update the apt package index, install kubelet, kubeadm and kubectl, and pin their version:
+      cat <<EOF | sudo tee /etc/sysctl.d/k8s.conf
+net.ipv4.ip_forward = 1
+EOF
+
+      # Atualiza o índice do apt, instala kubelet, kubeadm e kubectl, e fixa a versão:
       sudo apt-get update
       sudo apt-get install -y kubelet kubeadm kubectl
       sudo apt-mark hold kubelet kubeadm kubectl
