@@ -2,9 +2,10 @@
 # vi: set ft=ruby :
 
 Vagrant.configure("2") do |config|
-  # Desativa a criação de links simbólicos via VirtualBox, evitando o warning
+  # Definições globais
+  config.vm.box = "ubuntu/focal64"
   config.vm.synced_folder '.', '/vagrant', disabled: true
-
+  
   # Máquina controlplane (Control Plane)
   config.vm.define "k8s-controlplane" do |controlplane|
     controlplane.vm.hostname = "k8s-controlplane"
@@ -26,18 +27,18 @@ Vagrant.configure("2") do |config|
 net.ipv4.ip_forward = 1
 EOF
 
-      # Atualização do índice de pacotes apt e instalação do kubelet, kubeadm e kubectl
+      # Atualiza o índice do apt, instala kubelet, kubeadm e kubectl, e fixa a versão:
       sudo apt-get update
       sudo apt-get install -y kubelet kubeadm kubectl
       sudo apt-mark hold kubelet kubeadm kubectl
       sudo systemctl enable --now kubelet
       sudo kubeadm init --pod-network-cidr=10.244.0.0/16 
-
+    
       # Configuração do kubectl para o usuário vagrant
       mkdir -p /home/vagrant/.kube
       sudo cp -i /etc/kubernetes/admin.conf /home/vagrant/.kube/config
       sudo chown vagrant:vagrant /home/vagrant/.kube/config
-
+      
       # Aplicação da rede Flannel
       kubectl apply -f https://github.com/flannel-io/flannel/releases/latest/download/kube-flannel.yml
     SHELL
@@ -64,7 +65,7 @@ EOF
 net.ipv4.ip_forward = 1
 EOF
 
-      # Atualização do índice de pacotes apt e instalação do kubelet, kubeadm e kubectl
+      # Atualiza o índice do apt, instala kubelet, kubeadm e kubectl, e fixa a versão:
       sudo apt-get update
       sudo apt-get install -y kubelet kubeadm kubectl
       sudo apt-mark hold kubelet kubeadm kubectl
@@ -93,11 +94,11 @@ EOF
 net.ipv4.ip_forward = 1
 EOF
 
-      # Atualização do índice de pacotes apt e instalação do kubelet, kubeadm e kubectl
+      # Atualiza o índice do apt, instala kubelet, kubeadm e kubectl, e fixa a versão:
       sudo apt-get update
       sudo apt-get install -y kubelet kubeadm kubectl
       sudo apt-mark hold kubelet kubeadm kubectl
-      sudo systemctl enable --now kubelet
+      sudo systemctl enable --now kubelet 
     SHELL
   end
 end
