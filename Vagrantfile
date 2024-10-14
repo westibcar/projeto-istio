@@ -36,7 +36,7 @@ Vagrant.configure("2") do |config|
       sudo chown vagrant:vagrant /home/vagrant/.kube/config
       
       # Aplicação da rede Flannel
-      kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/controlplane/Documentation/kube-flannel.yml
+      kubectl apply -f kubectl apply -f https://github.com/flannel-io/flannel/releases/latest/download/kube-flannel.yml
     SHELL
   end
 
