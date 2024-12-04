@@ -4,7 +4,7 @@ metadata:
   name: uday-virtualservice-bookinfo
 spec:
   hosts:
-  - "uday.bookinfo"
+  - "bookinfo.uday.com.br"
   gateways:
   - uday-gateway-bookinfo
   http:
@@ -24,3 +24,4 @@ spec:
         host: productpage
         port:
           number: 9080
+
