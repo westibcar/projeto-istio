@@ -1,0 +1,20 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: uday-byookinfo-virtualservice-retries
+spec:
+  hosts:
+    - bookinfo.uday.com.br
+  http:
+    - match:
+        - uri:
+            exact: /productpage
+      retries:
+        attempts: 3                  # Número de tentativas
+        perTryTimeout: 2s            # Timeout por tentativa
+        retryOn: 5xx                 # Tentar novamente em caso de erros 5xx (como 502, 504)
+      route:
+        - destination:
+            host: productpage.default.svc.cluster.local
+            port:
+              number: 9080
